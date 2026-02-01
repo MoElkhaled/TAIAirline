@@ -89,7 +89,6 @@ public class AllPaths {
             Vertex tempV = new Vertex();
             startingCities.add(tempV);
             tempV.setName(eachLine[0]);
-            startingCitiesStrings.add(eachLine[0]);
         }
     }
     public static void initiateCitiesStrings() throws FileNotFoundException {
@@ -155,67 +154,20 @@ public class AllPaths {
 
     }
     public static String starter(String origin,String destination, String seatingClass) throws FileNotFoundException{
-      initiateCities();
+        // THIS IS WHATS BREAKING THE CODE
+        allPath.clear();
+        path.clear();
+        pathStrings.clear();
 
+        initiateCities();
       System.out.println("Welcome to Texas All In Airlines");
       Scanner sc = new Scanner(System.in);
-//      String origin = "";
-//      int indexCheck = -1;
-//      while(true) {
-//          System.out.println("Please enter an origin: ");
-//          origin = sc.nextLine();
-//          for (int k = 0; k < startingCities.size(); k++) {
-//              if (startingCities.get(k).getName().equals(origin)) {
-//                  indexCheck = k;
-//              }
-//          }
-//          if(indexCheck >= 0){
-//              break;
-//          }
-//          else{
-//              System.out.println("Sorry! The entered city is not supported by Texas All In Airlines!");
-//              System.out.println("Please enter a new city");
-//          }
-//      }
+
 
       System.out.println("Your input " + origin.toUpperCase());
-//      String destination = "";
-//      indexCheck = -1;
-//      while(true) {
-//          System.out.println("Please enter a destination: ");
-//          destination = sc.nextLine();
-//          for (int k = 0; k < startingCities.size(); k++) {
-//              if (startingCities.get(k).getName().equals(destination)) {
-//                  indexCheck = k;
-//              }
-//          }
-//          if(indexCheck >= 0){
-//              break;
-//          }
-//          else{
-//              System.out.println("Sorry! The entered city is not supported by Texas All In Airlines!");
-//              System.out.println("Please enter a new city");
-//          }
-//      }
+
       System.out.println("Your input " + destination.toUpperCase());
-//      System.out.println("Would you like Economy or First Class seating? ");
-//      String seatingClass = " ";
-//      int userChoice = 0;
-//      while(true) {
-//          System.out.println("Please Enter 1 for Economy or 2 for First Class.");
-//          userChoice = sc.nextInt();
-//          if(userChoice != 1 && userChoice != 2){
-//              System.out.println("Sorry please enter 1 or 2 only");
-//          }
-//          else if(userChoice == 1){
-//              seatingClass = "ECONOMY";
-//              break;
-//          }
-//          else if(userChoice == 2){
-//              seatingClass = "FIRST CLASS";
-//              break;
-//          }
-//      }
+
       ReadFile(origin,destination,seatingClass);
 
       return pathStrings.toString();
@@ -273,11 +225,10 @@ public class AllPaths {
                 exchange.close();
                 return;
             }
-            // 🔥 THIS is where your existing logic goes
+
+            // THIS is where your existing logic goes
             String response = starter(origin,destination,seatingClass);
-            allPath.clear();
-            path.clear();
-            pathStrings.clear();
+
             exchange.sendResponseHeaders(200, response.getBytes().length);
             OutputStream os = exchange.getResponseBody();
             os.write(response.getBytes());
