@@ -1,9 +1,16 @@
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.io.*;
+import com.sun.net.httpserver.HttpServer;
+import java.io.OutputStream;
+import java.net.InetSocketAddress;
 public class AllPaths {
     private static ArrayList<Vertex> startingCities = new ArrayList<>();
+    private static ArrayList<String> startingCitiesStrings = new ArrayList<>();
     private static ArrayList<Vertex> path = new ArrayList<>();
     private static ArrayList<Path> allPath = new ArrayList<>();
+    private static ArrayList<String> pathStrings = new ArrayList<>();
 
 
     public static void findPathH(Vertex source, Vertex dest,String userChoice){
@@ -74,18 +81,30 @@ public class AllPaths {
         return cost;
     }
     public static void initiateCities() throws FileNotFoundException {
-        Scanner Freader = new Scanner(new File("/Users/moelkhaled/Desktop/TAIAirline/FlightPaths.csv"));
+        InputStream stream = AllPaths.class.getResourceAsStream("/FlightPaths.csv");
+        Scanner Freader = new Scanner(stream);
         Freader.useDelimiter("\n");
         while (Freader.hasNextLine()) {
             String[] eachLine = Freader.nextLine().split(",");
             Vertex tempV = new Vertex();
             startingCities.add(tempV);
             tempV.setName(eachLine[0]);
+            startingCitiesStrings.add(eachLine[0]);
+        }
+    }
+    public static void initiateCitiesStrings() throws FileNotFoundException {
+        InputStream stream = AllPaths.class.getResourceAsStream("/FlightPaths.csv");
+        Scanner Freader = new Scanner(stream);
+        Freader.useDelimiter("\n");
+        while (Freader.hasNextLine()) {
+            String[] eachLine = Freader.nextLine().split(",");
+            startingCitiesStrings.add(eachLine[0]);
         }
     }
     public static void ReadFile(String userSource, String userDest, String userChoice) throws FileNotFoundException {
 
-        Scanner newReader = new Scanner(new File("/Users/moelkhaled/Desktop/TAIAirline/FlightPaths.csv"));
+        InputStream stream = AllPaths.class.getResourceAsStream("/FlightPaths.csv");
+        Scanner newReader = new Scanner(stream);
         newReader.useDelimiter("\n");
         int indexOfCurrentStartingCity = 0;
         while (newReader.hasNextLine()) {
@@ -128,76 +147,145 @@ public class AllPaths {
         }
 
         findPathH(startingCities.get(sourceIndex), startingCities.get(destIndex),userChoice);
+
         for(int i = 0; i < allPath.size();i++){
             allPath.get(i).printPath();
+            pathStrings.add(allPath.get(i).returnPath());
         }
+
     }
-    public static void starter() throws FileNotFoundException{
+    public static String starter(String origin,String destination, String seatingClass) throws FileNotFoundException{
       initiateCities();
 
       System.out.println("Welcome to Texas All In Airlines");
       Scanner sc = new Scanner(System.in);
-      String origin = "";
-      int indexCheck = -1;
-      while(true) {
-          System.out.println("Please enter an origin: ");
-          origin = sc.nextLine();
-          for (int k = 0; k < startingCities.size(); k++) {
-              if (startingCities.get(k).getName().equals(origin)) {
-                  indexCheck = k;
-              }
-          }
-          if(indexCheck >= 0){
-              break;
-          }
-          else{
-              System.out.println("Sorry! The entered city is not supported by Texas All In Airlines!");
-              System.out.println("Please enter a new city");
-          }
-      }
+//      String origin = "";
+//      int indexCheck = -1;
+//      while(true) {
+//          System.out.println("Please enter an origin: ");
+//          origin = sc.nextLine();
+//          for (int k = 0; k < startingCities.size(); k++) {
+//              if (startingCities.get(k).getName().equals(origin)) {
+//                  indexCheck = k;
+//              }
+//          }
+//          if(indexCheck >= 0){
+//              break;
+//          }
+//          else{
+//              System.out.println("Sorry! The entered city is not supported by Texas All In Airlines!");
+//              System.out.println("Please enter a new city");
+//          }
+//      }
 
       System.out.println("Your input " + origin.toUpperCase());
-      String destination = "";
-      indexCheck = -1;
-      while(true) {
-          System.out.println("Please enter a destination: ");
-          destination = sc.nextLine();
-          for (int k = 0; k < startingCities.size(); k++) {
-              if (startingCities.get(k).getName().equals(destination)) {
-                  indexCheck = k;
-              }
-          }
-          if(indexCheck >= 0){
-              break;
-          }
-          else{
-              System.out.println("Sorry! The entered city is not supported by Texas All In Airlines!");
-              System.out.println("Please enter a new city");
-          }
-      }
+//      String destination = "";
+//      indexCheck = -1;
+//      while(true) {
+//          System.out.println("Please enter a destination: ");
+//          destination = sc.nextLine();
+//          for (int k = 0; k < startingCities.size(); k++) {
+//              if (startingCities.get(k).getName().equals(destination)) {
+//                  indexCheck = k;
+//              }
+//          }
+//          if(indexCheck >= 0){
+//              break;
+//          }
+//          else{
+//              System.out.println("Sorry! The entered city is not supported by Texas All In Airlines!");
+//              System.out.println("Please enter a new city");
+//          }
+//      }
       System.out.println("Your input " + destination.toUpperCase());
-      System.out.println("Would you like Economy or First Class seating? ");
-      String seatingClass = " ";
-      int userChoice = 0;
-      while(true) {
-          System.out.println("Please Enter 1 for Economy or 2 for First Class.");
-          userChoice = sc.nextInt();
-          if(userChoice != 1 && userChoice != 2){
-              System.out.println("Sorry please enter 1 or 2 only");
-          }
-          else if(userChoice == 1){
-              seatingClass = "ECONOMY";
-              break;
-          }
-          else if(userChoice == 2){
-              seatingClass = "FIRST CLASS";
-              break;
-          }
-      }
+//      System.out.println("Would you like Economy or First Class seating? ");
+//      String seatingClass = " ";
+//      int userChoice = 0;
+//      while(true) {
+//          System.out.println("Please Enter 1 for Economy or 2 for First Class.");
+//          userChoice = sc.nextInt();
+//          if(userChoice != 1 && userChoice != 2){
+//              System.out.println("Sorry please enter 1 or 2 only");
+//          }
+//          else if(userChoice == 1){
+//              seatingClass = "ECONOMY";
+//              break;
+//          }
+//          else if(userChoice == 2){
+//              seatingClass = "FIRST CLASS";
+//              break;
+//          }
+//      }
       ReadFile(origin,destination,seatingClass);
+
+      return pathStrings.toString();
     }
-    public static void main(String[] args) throws FileNotFoundException {
-        starter();
+
+    private static Map<String, String> parseQueryParams(String query) {
+        Map<String, String> params = new HashMap<>();
+        if (query == null || query.isEmpty()) return params;
+
+        for (String pair : query.split("&")) {
+            String[] keyValue = pair.split("=");
+            if (keyValue.length == 2) {
+                params.put(
+                        URLDecoder.decode(keyValue[0], StandardCharsets.UTF_8),
+                        URLDecoder.decode(keyValue[1], StandardCharsets.UTF_8)
+                );
+            }
+        }
+        return params;
+    }
+
+    public static void main(String[] args) throws IOException {
+        initiateCitiesStrings();
+        HttpServer server = HttpServer.create(new InetSocketAddress(8080), 0);
+
+        server.createContext("/flight-paths", exchange -> {
+            if (!exchange.getRequestMethod().equalsIgnoreCase("GET")) {
+                exchange.sendResponseHeaders(405, -1);
+                return;
+            }
+            Map<String, String> params = parseQueryParams(exchange.getRequestURI().getQuery());
+
+            String origin = params.get("origin");
+            String destination = params.get("destination");
+            String seatingClass = params.get("class");
+            if(!startingCitiesStrings.contains(origin)){
+                String error = "Invalid origin";
+                exchange.sendResponseHeaders(400, error.getBytes().length);
+                exchange.getResponseBody().write(error.getBytes());
+                exchange.close();
+                return;
+            }
+            if(!startingCitiesStrings.contains(destination)){
+                String error = "invalid destination";
+                exchange.sendResponseHeaders(400, error.getBytes().length);
+                exchange.getResponseBody().write(error.getBytes());
+                exchange.close();
+                return;
+            }
+            // Validate required fields
+            if (origin == null || destination == null || seatingClass == null) {
+                String error = "Missing required query parameters: origin, destination, class";
+                exchange.sendResponseHeaders(400, error.getBytes().length);
+                exchange.getResponseBody().write(error.getBytes());
+                exchange.close();
+                return;
+            }
+            // 🔥 THIS is where your existing logic goes
+            String response = starter(origin,destination,seatingClass);
+            allPath.clear();
+            path.clear();
+            pathStrings.clear();
+            exchange.sendResponseHeaders(200, response.getBytes().length);
+            OutputStream os = exchange.getResponseBody();
+            os.write(response.getBytes());
+            os.close();
+        });
+
+        server.start();
+        System.out.println("API running on http://localhost:8080/flight-paths");
     }
 
 }
