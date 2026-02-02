@@ -10,22 +10,26 @@ def main():
 
     try:
         response = requests.get(API_URL, timeout=5)
-        print(f"Expected result for test 1: {EXPECTED_RESULT1}")
     except Exception as e:
-        print(f"❌ Failed to call API: {e}")
+        print(f" Failed to call API: {e}")
         sys.exit(1)
 
     if response.status_code != 200:
-        print(f"❌ Expected status 200, got {response.status_code}")
+        print(f"Expected status 200, got {response.status_code}")
         sys.exit(1)
+
+
+
     if response.text.strip() != EXPECTED_RESULT1:
         print("actual result did not match expected result")
         print(f"actual result: {response.text.strip()}")
         print(f"expected result: {EXPECTED_RESULT1}")
         sys.exit(1)
-
-    print("✅ API responded with HTTP 200")
-    sys.exit(0)
+    else:
+        print(f"Expected result for test 1: {EXPECTED_RESULT1}")
+        print(f"Actual result for test 1: {response.text.strip()}")
+        print("Test Passed!")
+        sys.exit(0)
 
 if __name__ == "__main__":
     main()
