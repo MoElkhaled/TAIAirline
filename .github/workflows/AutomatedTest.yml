@@ -1,4 +1,4 @@
-name: API Check
+name: Automated Test
 
 on:
   push:
@@ -12,5 +12,13 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Sanity check
-        run: echo "GitHub Action running in same repo as code ✅"
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Verify Python installation
+        run: python --version
+
+      - name: Run CI Python script
+        run: python cicd/smoketest.py
