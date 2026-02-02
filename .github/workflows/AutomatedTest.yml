@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  api-check:
+  Automated-Smoketest:
     runs-on: ubuntu-latest
 
     steps:

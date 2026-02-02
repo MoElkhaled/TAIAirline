@@ -2,7 +2,7 @@ import sys
 import requests
 
 API_URL = "http://localhost:8080/flight-paths?origin=Dallas&destination=Houston&class=ECONOMY"
-EXPECTED_RESULT1 = "[Dallas --> Tyler --> Ho: 294 miles: $294.0]"
+EXPECTED_RESULT1 = "[Dallas --> Tyler --> Houston: 294 miles: $294.0]"
 TESTFAILED = False
 
 def main():
