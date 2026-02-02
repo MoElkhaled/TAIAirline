@@ -158,6 +158,7 @@ public class AllPaths {
         allPath.clear();
         path.clear();
         pathStrings.clear();
+        startingCities.clear();
 
         initiateCities();
       System.out.println("Welcome to Texas All In Airlines");
