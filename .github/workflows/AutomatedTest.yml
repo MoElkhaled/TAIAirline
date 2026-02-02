@@ -39,4 +39,4 @@ jobs:
           pip install requests
 
       - name: Run API check
-        run: python ci/check_api.py
+        run: python cicd/smoketest.py
