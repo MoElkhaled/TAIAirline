@@ -1,0 +1,16 @@
+name: API Check
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  api-check:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Sanity check
+        run: echo "GitHub Action running in same repo as code ✅"
