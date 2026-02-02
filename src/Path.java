@@ -23,6 +23,19 @@ public class Path {
         System.out.println(": "+ getMiles() + " miles:" + "$" +getCost());
 
     }
+    public String returnPath(){
+        StringBuilder buildPath = new StringBuilder();
+        for(int i = 0; i < path.size();i++){
+            if(i == path.size()-1){
+                buildPath.append(path.get(i).getName());
+            }
+            else
+                buildPath.append(path.get(i).getName()).append(" ").append("-->").append(" ");
+        }
+        buildPath.append(": "+ getMiles() + " miles: " + "$" +getCost());
+//        String path = ": "+ getMiles() + " miles:" + "$" +getCost();
+        return buildPath.toString();
+    }
     public void setMiles(int miles1){
         miles = miles1;
     }
