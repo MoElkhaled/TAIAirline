@@ -12,13 +12,31 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: "temurin"
+          java-version: "24"
+
+      - name: Compile Java code
+        run: |
+          mkdir -p out
+          javac -d out $(find src -name "*.java")
+
+      - name: Start API server
+        run: |
+          java -cp out AllPaths &
+          sleep 5
+
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.11"
 
-      - name: Verify Python installation
-        run: python --version
+      - name: Install Python dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install requests
 
-      - name: Run CI Python script
-        run: python cicd/smoketest.py
+      - name: Run API check
+        run: python ci/check_api.py
